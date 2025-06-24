@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+
+  <div class="bg-gray-100 flex justify-center px-6 mb-4">
+    <table class="w-full divide-y">
+      <thead class="border-b border-gray-300 bg-black text-white">
+        <tr>
+          <th>번호</th>
+          <th>제목</th>
+          <th>작성일시</th>
+        </tr>
+      </thead>
+      <tbody class="border-b border-gray-300 text-center">
+        <tr th:each="question, loop : ${questionList}">
+          <td th:text="${loop.count}"></td>
+          <td>
+            <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}" class="block hover:bg-gray-300 hover:underline"></a>
+          </td>
+          <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <a th:href="@{/question/create}" class="button bg-gray-400 px-4 py-2 hover:bg-black hover:underline hover:text-white rounded">질문 등록하기</a>
+
+  <div class="flex justify-center px-6 mb-4">
+    <button class="bg-blue-500 text-white border border-blue-700">
+      <a href="/" class="bg-blue-500 text-white px-10 py-3 rounded-none inline-block text-center">
+        홈
+      </a>
+    </button>
+  </div>
+
+</body>
+</html>

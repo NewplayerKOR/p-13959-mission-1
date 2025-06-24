@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>질문</title>
+</head>
+<body>
+<div class="px-50">
+    <h1 th:text="${question.subject}" class="font-bold text-3xl py-2 flex"></h1>
+    <hr class="border-b border-gray-300">
+    <br>
+    <div class="relative border border-gray-400 rounded px-4 py-6 min-h-32">
+        <div th:text="${question.content}" class="text-lg"></div>
+        <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"
+             class="absolute bottom-4 right-4 text-sm text-black border border-rounded bg-gray-100 px-2 py-2 rounded-lg">
+        </div>
+    </div>
+    <br>
+    <h5 th:text="|${#lists.size(question.answer)}개의 답변이 있습니다.|" class="text-2xl py-2 py-2"></h5>
+    <hr class="border-b border-gray-300">
+    <br>
+
+    <div>
+        <ul class="list-inside">
+            <li th:each="answer : ${question.answer}" class="relative border border-gray-400 rounded px-4 py-6 min-h-32 mb-4">
+                <span th:text="${answer.content}" class="text-lg"></span>
+                <span class="absolute bottom-4 right-4 text-sm text-black border border-rounded bg-gray-100 px-2 py-2 rounded-lg"
+                      th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                <br>
+            </li>
+        </ul>
+
+    </div>
+    <hr class="border-b border-gray-300">
+    <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="py-4">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </div>
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <textarea name="content" id="content" rows="15" class="border w-full border border-gray-400 rounded px-4 py-6 min-h-16 mb-4"></textarea>
+        <input type="submit" value="답변등록" class="bg-gray-200 py-1 border border-black">
+    </form>
+</div>
+</body>
+</html>
